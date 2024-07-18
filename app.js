@@ -3,20 +3,23 @@ let startTime;
 let elapsedTime = 0;
 let timerInterval;
 
-let stopwatch = document.getElementById('stopwatch');
-let startStopButton = document.getElementById('startStopButton');
-let resetButton = document.getElementById('resetButton');
+// Wait for the DOM to fully load before accessing elements
+document.addEventListener("DOMContentLoaded", function() {
+    let stopwatch = document.getElementById('stopwatch');
+    let startStopButton = document.getElementById('startStopButton');
+    let resetButton = document.getElementById('resetButton');
 
-startStopButton.addEventListener("click", function () {
-    if (isRunning) {
-        stopTimer();
-    } else {
-        startTimer();
-    }
-});
+    startStopButton.addEventListener("click", function () {
+        if (isRunning) {
+            stopTimer();
+        } else {
+            startTimer();
+        }
+    });
 
-resetButton.addEventListener("click", function () {
-    resetTimer();
+    resetButton.addEventListener("click", function () {
+        resetTimer();
+    });
 });
 
 function startTimer() {
@@ -38,7 +41,6 @@ function resetTimer() {
     clearInterval(timerInterval);
     elapsedTime = 0;
     updateTime();
-    document.getElementById('stopwatch').textContent = "0:00:00"
 }
 
 function updateTime() {
@@ -51,5 +53,7 @@ function updateDisplay() {
     const minutes = Math.floor(elapsedTime / 60000);
     const seconds = Math.floor((elapsedTime % 60000) / 1000);
     const milliseconds = Math.floor((elapsedTime % 1000) / 10);
-    stopwatch.textContent = `${minutes}:${seconds}:${milliseconds}`;
+
+    // Ensure seconds and milliseconds are displayed with two digits
+    stopwatch.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(2, '0')}`;
 }
